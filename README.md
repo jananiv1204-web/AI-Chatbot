@@ -27,7 +27,7 @@ Ziggy AI is a conversational AI application designed to answer questions, assist
 
 ## 📸 Screenshots
 
-(Add screenshots here)
+![Ziggy AI Screenshot](assets/screenshots/home.png)
 
 ---
 
