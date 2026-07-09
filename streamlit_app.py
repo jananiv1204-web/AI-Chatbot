@@ -40,7 +40,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 
-# -----------------------------
+ # -----------------------------
 # Sidebar
 # -----------------------------
 with st.sidebar:
@@ -49,30 +49,33 @@ with st.sidebar:
 
     st.markdown("---")
 
+    # New Chat
     if st.button("🆕 New Chat"):
         st.session_state.messages = []
         st.rerun()
 
+    # Clear Chat
     if st.button("🗑 Clear Chat"):
         st.session_state.messages = []
         st.rerun()
 
     st.markdown("---")
 
+    # Download & Save (only if chat exists)
     if st.session_state.messages:
 
         chat_text = ""
 
         for msg in st.session_state.messages:
-
             sender = "👤 User" if msg["role"] == "user" else "🤖 Ziggy AI"
 
             chat_text += f"{sender} ({msg['time']})\n"
-            chat_text += f"{msg['content']}\n\n"
+            chat_text += f"{msg['content']}\n"
+            chat_text += "-" * 40 + "\n\n"
 
         st.download_button(
-            "📄 Download Chat",
-            chat_text,
+            label="📄 Download Chat",
+            data=chat_text,
             file_name="ziggy_chat.txt",
             mime="text/plain"
         )
@@ -84,13 +87,13 @@ with st.sidebar:
             filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
             with open(f"chat_history/{filename}.json", "w") as file:
-
                 json.dump(st.session_state.messages, file, indent=4)
 
-            st.success("Chat saved!")
+            st.success("✅ Chat Saved!")
 
     st.markdown("---")
 
+    # Saved Chats
     st.subheader("📚 Saved Chats")
 
     os.makedirs("chat_history", exist_ok=True)
@@ -104,30 +107,42 @@ with st.sidebar:
 
         for file in saved_files:
 
-            name = os.path.basename(file).replace(".json", "")
+            chat_name = os.path.basename(file).replace(".json", "")
 
-            if st.button(f"📄 {name}"):
+            if st.button(f"📄 {chat_name}"):
 
                 with open(file, "r") as f:
-
                     st.session_state.messages = json.load(f)
 
                 st.rerun()
 
     else:
-
         st.caption("No saved chats yet.")
 
     st.markdown("---")
 
-    st.subheader("About")
+    # AI Tools
+    st.subheader("📂 AI Tools")
+
+    uploaded_pdf = st.file_uploader(
+        "Upload PDF",
+        type=["pdf"]
+    )
+
+    if uploaded_pdf:
+        st.success(f"✅ {uploaded_pdf.name} uploaded!")
+
+    st.markdown("---")
+
+    # About
+    st.subheader("ℹ️ About")
 
     st.write("""
 Welcome to **Ziggy AI**
 
 Professional AI Assistant
 
-Version **2.0**
+**Version 2.0**
 """)
 # -----------------------------
 # Main Header
