@@ -173,7 +173,20 @@ with col1:
 with col2:
     st.title("🤖 Ziggy AI")
     st.caption("Build • Learn • Create")
+    st.subheader("🤖 AI Mode")
 
+ai_mode = st.selectbox(
+    "Choose Mode",
+    [
+        "General Assistant",
+        "Coding Assistant",
+        "Career Coach",
+        "Study Assistant",
+        "PDF Assistant"
+    ]
+)
+
+st.markdown("---")
 
 # ---------------------------------------
 # PDF Status
