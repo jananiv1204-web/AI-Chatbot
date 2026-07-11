@@ -1,6 +1,7 @@
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import io
+from rag.chunking import split_text
 from rag.pdf_loader import load_pdf
 import streamlit as st
 import google.generativeai as genai
@@ -231,6 +232,8 @@ with st.sidebar:
     if uploaded_pdf:
 
         pdf_text = load_pdf(uploaded_pdf)
+        chunks = split_text(pdf_text)
+        st.write(f"Total Chunks: {len(chunks)}")
 
         st.session_state.pdf_text = pdf_text
 
