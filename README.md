@@ -91,25 +91,45 @@ AI-Chatbot/
 
 ## 📸 Screenshots
 
-### Home Screen
+### 🏠 Home Screen
 
-![Home](assets/screenshots/home.png)
+![Home](assets/screenshots/screenshots/home.png)
 
-### Sidebar
+### 📑 Sidebar
 
-![Sidebar](assets/screenshots/sidebar.png)
+![Sidebar](assets/screenshots/screenshots/sidebar.png)
 
-### PDF Upload
+### 📄 PDF Upload
 
-![PDF Upload](assets/screenshots/pdf.png)
+![PDF Upload](assets/screenshots/screenshots/pdf.png)
 
-### Settings
+### ⚙️ Settings
 
-![Settings](assets/screenshots/settings.png)
+![Settings](assets/screenshots/screenshots/settings.png)
 
-### Chat Interface
+### 💬 Chat Interface
 
-![Chat](assets/screenshots/savedchat.png)
+![Chat](assets/screenshots/screenshots/chat.png)
+
+### 💾 Saved Chat
+
+![Saved Chat](assets/screenshots/screenshots/savedchat.png)
+
+### 📥 Download Chat
+
+![Download Chat](assets/screenshots/screenshots/downloadchat.png)
+
+### 🤖 AI Tools & About
+
+![AI Tools](assets/screenshots/screenshots/AI%20tools%20and%20about.png)
+
+### ✨ Ziggy AI v2.0
+
+![Version 2.0](assets/screenshots/screenshots/ver%202.0.png)
+
+### 👋 Welcome Screen
+
+![Welcome](assets/screenshots/screenshots/welcome-page.png)
 ---
 
 ## 🚀 Installation & Setup
