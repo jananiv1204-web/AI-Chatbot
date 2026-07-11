@@ -1,0 +1,22 @@
+[
+    {
+        "role": "user",
+        "content": "hi",
+        "time": "03:51 PM"
+    },
+    {
+        "role": "assistant",
+        "content": "Hello! How can Ziggy AI help you today?",
+        "time": "03:51 PM"
+    },
+    {
+        "role": "user",
+        "content": "hello",
+        "time": "03:51 PM"
+    },
+    {
+        "role": "assistant",
+        "content": "Hello! How can I, Ziggy AI, assist you today?",
+        "time": "03:51 PM"
+    }
+]

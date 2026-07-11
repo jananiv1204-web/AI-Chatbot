@@ -1,3 +1,6 @@
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+import io
 import streamlit as st
 from pdf_helper import read_pdf
 import os
@@ -44,7 +47,34 @@ if "messages" not in st.session_state:
 
 if "pdf_text" not in st.session_state:
     st.session_state.pdf_text = ""
-    # ---------------------------------------
+    
+def create_pdf(chat_text):
+    buffer = io.BytesIO()
+
+    pdf = canvas.Canvas(buffer, pagesize=letter)
+
+    pdf.setFont("Helvetica", 12)
+
+    y = 750
+
+    for line in chat_text.split("\n"):
+
+        pdf.drawString(40, y, line)
+
+        y -= 20
+
+        if y < 40:
+            pdf.showPage()
+            pdf.setFont("Helvetica", 12)
+            y = 750
+
+    pdf.save()
+
+    buffer.seek(0)
+
+    return buffer
+   
+# ---------------------------------------
 # Sidebar
 # ---------------------------------------
 with st.sidebar:
@@ -53,21 +83,36 @@ with st.sidebar:
 
     st.markdown("---")
 
-    # New Chat
-    if st.button("🆕 New Chat"):
+    # ---------------------------------------
+    # AI Mode
+    # ---------------------------------------
+    st.subheader("🤖 AI Mode")
 
-        st.session_state.messages = []
-        st.rerun()
+    ai_mode = st.selectbox(
+        "Choose Mode",
+        [
+            "General Assistant",
+            "Coding Assistant",
+            "Career Coach",
+            "Study Assistant",
+            "PDF Assistant"
+        ]
+    )
 
+    st.markdown("---")
+
+    # ---------------------------------------
     # Clear Chat
+    # ---------------------------------------
     if st.button("🗑️ Clear Chat"):
-
         st.session_state.messages = []
         st.rerun()
 
     st.markdown("---")
 
-    # Download Chat
+    # ---------------------------------------
+    # Download & Save Chat
+    # ---------------------------------------
     if st.session_state.messages:
 
         chat_text = ""
@@ -77,13 +122,23 @@ with st.sidebar:
             sender = "👤 User" if msg["role"] == "user" else "🤖 Ziggy AI"
 
             chat_text += f"{sender} ({msg['time']})\n"
-            chat_text += f"{msg['content']}\n\n"
+            chat_text += f"{msg['content']}\n"
+            chat_text += "-" * 40 + "\n\n"
+
+        pdf_file = create_pdf(chat_text) 
 
         st.download_button(
-            label="📄 Download Chat",
+            label="📄 Download Chat (TXT)",
             data=chat_text,
             file_name="ziggy_chat.txt",
             mime="text/plain",
+        )
+
+        st.download_button(
+            label="📕 Download Chat (PDF)",
+            data=pdf_file,
+            file_name="ziggy_chat.pdf",
+            mime="application/pdf",
         )
 
         if st.button("💾 Save Chat"):
@@ -93,15 +148,34 @@ with st.sidebar:
             filename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
             with open(f"chat_history/{filename}.json", "w") as file:
-
                 json.dump(st.session_state.messages, file, indent=4)
 
-            st.success("✅ Chat Saved!")
+            st.success("✅ Chat Saved Successfully!")
 
     st.markdown("---")
 
+    st.title("🤖 Ziggy AI")
+
+    st.markdown("---")
+
+    # ---------------------------------------
+    # New Chat
+    # ---------------------------------------
+    if st.button("🆕 New Chat"):
+        st.session_state.messages = []
+        st.rerun()
+
+    st.markdown("---")
+
+    # ---------------------------------------
     # Saved Chats
+    # ---------------------------------------
     st.subheader("📚 Saved Chats")
+
+    search_chat = st.text_input(
+        "🔍 Search Chats",
+        placeholder="Type chat name..."
+    )
 
     os.makedirs("chat_history", exist_ok=True)
 
@@ -110,27 +184,39 @@ with st.sidebar:
         reverse=True
     )
 
+    found_chat = False
+
     if saved_files:
 
         for i, file in enumerate(saved_files):
 
             chat_name = os.path.basename(file).replace(".json", "")
+            display_name = chat_name.replace("_", " ")
 
-            if st.button(f"📄 {chat_name}", key=f"chat_{i}"):
+            if search_chat:
+                if search_chat.lower() not in display_name.lower():
+                    continue
+
+            found_chat = True
+
+            if st.button(f"📄 {display_name}", key=f"chat_{i}"):
 
                 with open(file, "r") as f:
-
                     st.session_state.messages = json.load(f)
 
                 st.rerun()
 
-    else:
+        if search_chat and not found_chat:
+            st.info("🔍 No chats found.")
 
+    else:
         st.caption("No saved chats yet.")
 
     st.markdown("---")
 
+    # ---------------------------------------
     # AI Tools
+    # ---------------------------------------
     st.subheader("📂 AI Tools")
 
     uploaded_pdf = st.file_uploader(
@@ -147,20 +233,21 @@ with st.sidebar:
         st.success("✅ PDF Loaded!")
 
         with st.expander("📄 Preview PDF"):
-
             st.write(pdf_text[:1000])
 
     st.markdown("---")
 
+    # ---------------------------------------
     # About
+    # ---------------------------------------
     st.subheader("ℹ️ About")
 
     st.write("""
 **Welcome to Ziggy AI**
 
-Professional AI Assistant
+Professional AI Assistant powered by Google Gemini.
 
-Version **2.0**
+**Version 2.0**
 """)
     # ---------------------------------------
 # Main Header
@@ -173,18 +260,6 @@ with col1:
 with col2:
     st.title("🤖 Ziggy AI")
     st.caption("Build • Learn • Create")
-    st.subheader("🤖 AI Mode")
-
-ai_mode = st.selectbox(
-    "Choose Mode",
-    [
-        "General Assistant",
-        "Coding Assistant",
-        "Career Coach",
-        "Study Assistant",
-        "PDF Assistant"
-    ]
-)
 
 st.markdown("---")
 
@@ -347,7 +422,7 @@ User Question:
 
     except Exception as e:
 
-      if "429" in str(e):
+     if "429" in str(e):
 
         st.warning("""
 ⚠️ Ziggy AI has reached the Gemini API free quota.
