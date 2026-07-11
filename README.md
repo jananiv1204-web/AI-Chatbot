@@ -1,4 +1,5 @@
 # 🤖 Ziggy AI
+Current Version: v2.0
 Built with ❤️ using Python, Streamlit and Google Gemini AI.
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
@@ -22,7 +23,7 @@ Ziggy AI is a conversational AI application designed to answer questions, assist
 
 🌐 **Try Ziggy AI Online**
 
-https://ziggy-ai-8jydrymsxaxmcfnrfc9jeo.streamlit.app/
+🌐 **[Launch Ziggy AI](https://ziggy-ai-8jydrymsxaxmcfnrfc9jeo.streamlit.app/)**
 
 ## ✨ Features
 
@@ -45,7 +46,11 @@ https://ziggy-ai-8jydrymsxaxmcfnrfc9jeo.streamlit.app/
 - Python 3.11
 - Streamlit
 - Google Gemini 2.5 Flash API
-- Git & GitHub
+- ReportLab
+- PyPDF
+- Git
+- GitHub
+- Streamlit Community Cloud
 ---
 
 ## 📂 Project Structure
@@ -96,7 +101,7 @@ AI-Chatbot/
 
 ### PDF Upload
 
-![PDF Upload](assets/screenshots/pdf_upload.png)
+![PDF Upload](assets/screenshots/pdf.png)
 
 ### Settings
 
@@ -104,7 +109,7 @@ AI-Chatbot/
 
 ### Chat Interface
 
-![Chat](assets/screenshots/chat.png)
+![Chat](assets/screenshots/savedchat.png)
 ---
 
 ## 🚀 Installation & Setup
