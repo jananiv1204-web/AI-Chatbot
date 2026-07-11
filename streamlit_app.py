@@ -250,6 +250,17 @@ Professional AI Assistant powered by Google Gemini.
 **Version 2.0**
 """)
     # ---------------------------------------
+    # Settings
+    # ---------------------------------------
+    st.markdown("---")
+    st.subheader("⚙️ Settings")
+    theme = st.selectbox(
+    "🌙 Theme",
+    ["System", "Light", "Dark"],
+    key="theme_select"
+)
+    
+    # ---------------------------------------
 # Main Header
 # ---------------------------------------
 col1, col2 = st.columns([1, 6])
