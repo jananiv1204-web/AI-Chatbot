@@ -1,4 +1,5 @@
 # 🤖 Ziggy AI
+Built with ❤️ using Python, Streamlit and Google Gemini AI.
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
@@ -7,41 +8,103 @@
 Ziggy AI is a conversational AI application designed to answer questions, assist users, and provide a simple interactive AI experience through a modern web interface.
 
 ---
+## 🌟 Key Highlights
 
-## Features
+- 💬 Interactive AI Chatbot
+- 📄 PDF Upload & Analysis
+- 📚 Search Saved Chats
+- 📕 Export Chats as PDF & TXT
+- ⚙️ Customizable Settings Panel
+- ☁️ Deployed on Streamlit Community Cloud
+---
 
-- 🤖 AI Chat
-- 📄 Download Chats
-- 💾 Save Chats
+## 🚀 Live Demo
+
+🌐 **Try Ziggy AI Online**
+
+https://ziggy-ai-8jydrymsxaxmcfnrfc9jeo.streamlit.app/
+
+## ✨ Features
+
+- 🤖 AI Chat Assistant
+- 💬 Multiple AI Modes
+- 📄 Upload and Analyze PDF Files
+- 💾 Save Chat History
 - 📚 Load Previous Chats
+- 🔍 Search Saved Chats
+- 📥 Download Chats as TXT
+- 📕 Download Chats as PDF
+- 📋 Copy AI Responses
 - 🕒 Chat Timestamps
-- 📋 Copy Responses
-- 📂 PDF Upload
-- 🧠 Multiple AI Modes
-- 🎨 Custom UI
-- 🤖 Ziggy AI
-- 📖 About
-- ✨ Features
-- 🛠 Tech Stack
-- 📸 Screenshots
-- 🚀 Installation
-- 📂 Project Structure
-- 🔮 Future Roadmap
-- 👨‍💻 Author
+- ⚙️ Settings Panel
+- 🎨 Modern Streamlit Interface
+- ☁️ Live Deployment on Streamlit Community Cloud
 
 ## 🛠️ Technologies Used
 
 - Python 3.11
 - Streamlit
-- Google Gemini API
+- Google Gemini 2.5 Flash API
 - Git & GitHub
-
 ---
+
+## 📂 Project Structure
+
+```text
+AI-Chatbot/
+│
+├── assets/
+├── chat_history/
+├── pdf_helper.py
+├── streamlit_app.py
+├── requirements.txt
+├── README.md
+├── .gitignore
+└── .env
+```
+
+## 🔮 Future Roadmap
+
+- 📄 Retrieval-Augmented Generation (RAG)
+- 🧠 Vector Database (FAISS)
+- 🖼 Image Analysis
+- 🎤 Voice Assistant
+- 🔊 Text-to-Speech
+- 🌍 Multi-language Support
+- 📱 Mobile-Friendly UI
+
+## 👩‍💻 Author
+
+**Janani V**
+
+🎓 Mechatronics Engineering Student
+
+🤖 AI & Python Developer
+
+🔗 GitHub: https://github.com/jananiv1204-web
+
 
 ## 📸 Screenshots
 
-![Ziggy AI Screenshot](screenshots/home.png)
+### Home Screen
 
+![Home](assets/screenshots/home.png)
+
+### Sidebar
+
+![Sidebar](assets/screenshots/sidebar.png)
+
+### PDF Upload
+
+![PDF Upload](assets/screenshots/pdf_upload.png)
+
+### Settings
+
+![Settings](assets/screenshots/settings.png)
+
+### Chat Interface
+
+![Chat](assets/screenshots/chat.png)
 ---
 
 ## 🚀 Installation & Setup
@@ -49,4 +112,49 @@ Ziggy AI is a conversational AI application designed to answer questions, assist
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_LINK
+git clone https://github.com/jananiv1204-web/AI-Chatbot.git
+```
+
+### 2. Navigate to the project
+
+```bash
+cd AI-Chatbot
+```
+
+### 3. Create a virtual environment
+
+```bash
+python -m venv .venv
+```
+
+### 4. Activate the virtual environment
+
+**Windows**
+
+```bash
+.venv\Scripts\activate
+```
+
+### 5. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 6. Create a `.env` file
+
+```env
+GOOGLE_API_KEY=YOUR_GEMINI_API_KEY
+```
+
+### 7. Run the application
+
+```bash
+streamlit run streamlit_app.py
+```
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
