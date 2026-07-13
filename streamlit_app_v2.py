@@ -15,6 +15,7 @@ import google.generativeai as genai
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 
+from image_helper import load_image
 from rag.pdf_loader import load_pdf
 from rag.chunking import split_text
 from rag.vector_store import create_vector_store
@@ -247,7 +248,22 @@ with st.sidebar:
         accept_multiple_files=True,
         key="pdf_upload"
     )
+    st.markdown("### 🖼 Upload Image")
 
+    uploaded_image = st.file_uploader(
+        "Choose an image",
+        type=["png", "jpg", "jpeg"],
+        key="image_uploader"
+    ) 
+    image = load_image(uploaded_image)
+    load_image()
+    if image:
+
+        st.image(
+            image,
+            caption="Uploaded Image",
+            use_container_width=True
+    )
     if uploaded_files:
 
         all_text = ""
