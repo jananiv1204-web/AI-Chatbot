@@ -72,6 +72,16 @@ if "show_timestamps" not in st.session_state:
 if "show_avatars" not in st.session_state:
     st.session_state.show_avatars = True
 # =====================================
+# IMAGE SESSION STATE
+# =====================================
+
+if "uploaded_image" not in st.session_state:
+    st.session_state.uploaded_image = None
+
+if "uploaded_image_file" not in st.session_state:
+    st.session_state.uploaded_image_file = None
+    
+# =====================================
 # CREATE PDF FUNCTION
 # =====================================
 
@@ -248,32 +258,19 @@ with st.sidebar:
         accept_multiple_files=True,
         key="pdf_upload"
     )
-    st.markdown("### 🖼 Upload Image")
-
     uploaded_image = st.file_uploader(
-        "Choose an image",
+        "🖼 Upload Image",
         type=["png", "jpg", "jpeg"],
-        key="image_uploader"
+        key="image_upload"
 )
-    if st.session_state.uploaded_image is None:
-        st.info("📷 No image uploaded.")
-    if uploaded_image is not None:
-        st.session_state.uploaded_image = uploaded_image
-    if "uploaded_image" not in st.session_state:
-        st.session_state.uploaded_image = None
+
     if uploaded_image is not None:
 
         image = load_image(uploaded_image)
 
-        st.image(
-        image,
-        caption="Uploaded Image",
-        use_container_width=True
-    )
-    st.success("✅ Image uploaded successfully!")
-    image = load_image(uploaded_image)
-    
-    if image is not None:
+        st.session_state.uploaded_image = image
+        st.session_state.uploaded_image_file = uploaded_image
+
         st.image(
             image,
             caption="Uploaded Image",
@@ -316,7 +313,7 @@ with st.sidebar:
             st.session_state.vector_store = None
 
             st.rerun()
-
+            
     st.markdown("---")
 
     # ===========================
@@ -530,6 +527,20 @@ Your name is Ziggy AI.
 prompt = st.chat_input("💬 Ask Ziggy AI anything...")
 
 if prompt:
+    # PDF Assistant Check
+    if (
+        st.session_state.ai_mode == "PDF Assistant"
+        and st.session_state.vector_store is None
+    ):
+        st.warning("📄 Please upload a PDF first.")
+        st.stop()
+    # Image Check
+    if (
+        "image" in prompt.lower()
+        and st.session_state.uploaded_image is None
+    ):
+        st.warning("🖼 Please upload an image first.")
+        st.stop()    
 
     current_time = datetime.now().strftime("%I:%M %p")
 
@@ -706,9 +717,10 @@ Instructions:
 
 with st.chat_message("assistant", avatar="🤖"):
 
-    with st.spinner("🧠 Ziggy is analyzing your request..."):
+    with st.spinner("🤖 Ziggy AI is thinking..."):
 
         try:
+
             if st.session_state.uploaded_image is not None:
 
                 image = load_image(st.session_state.uploaded_image)
@@ -723,6 +735,13 @@ with st.chat_message("assistant", avatar="🤖"):
             else:
 
                 response = model.generate_content(system_prompt)
+
+        except Exception as e:
+
+            st.error(f"⚠️ Gemini Error:\n\n{e}")
+
+            st.stop()
+            
 
             if hasattr(response, "text") and response.text:
                 ai_response = response.text

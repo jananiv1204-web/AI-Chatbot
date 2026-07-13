@@ -27,19 +27,16 @@ Ziggy AI is a conversational AI application designed to answer questions, assist
 
 ## ✨ Features
 
-- 🤖 AI Chat Assistant
-- 💬 Multiple AI Modes
-- 📄 Upload and Analyze PDF Files
-- 💾 Save Chat History
-- 📚 Load Previous Chats
-- 🔍 Search Saved Chats
-- 📥 Download Chats as TXT
-- 📕 Download Chats as PDF
-- 📋 Copy AI Responses
-- 🕒 Chat Timestamps
-- ⚙️ Settings Panel
-- 🎨 Modern Streamlit Interface
-- ☁️ Live Deployment on Streamlit Community Cloud
+- 🤖 AI Chat
+- 📄 PDF Assistant
+- 🧠 RAG Search
+- 🖼 Image Understanding
+- 💻 Coding Assistant
+- 🎓 Study Assistant
+- 💼 Career Coach
+- 💾 Save Chats
+- 📥 Download Chats
+- ☁️ Streamlit Deployment
 
 ## 🛠️ Technologies Used
 
