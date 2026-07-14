@@ -8,6 +8,10 @@ from datetime import datetime
 import streamlit as st
 import streamlit.components.v1 as components
 
+from voice.speech_to_text import save_audio
+from voice.text_to_speech import text_to_speech
+from streamlit_mic_recorder import mic_recorder
+
 from dotenv import load_dotenv
 
 import google.generativeai as genai
@@ -71,6 +75,10 @@ if "show_timestamps" not in st.session_state:
 
 if "show_avatars" not in st.session_state:
     st.session_state.show_avatars = True
+    
+if "voice_status" not in st.session_state:
+    st.session_state.voice_status = "Idle"
+    
 # =====================================
 # IMAGE SESSION STATE
 # =====================================
@@ -127,6 +135,9 @@ with st.sidebar:
     # ===========================
 
     st.subheader("🤖 AI Mode")
+    st.markdown("### 🎤 Voice Assistant")
+
+    st.info(f"Status: {st.session_state.voice_status}")
 
     st.session_state.ai_mode = st.selectbox(
         "Choose Mode",
@@ -191,7 +202,7 @@ with st.sidebar:
             pdf,
             "ziggy_chat.pdf"
         )
-
+        
         if st.button("💾 Save Chat"):
 
             os.makedirs("chat_history", exist_ok=True)
@@ -263,7 +274,30 @@ with st.sidebar:
         type=["png", "jpg", "jpeg"],
         key="image_upload"
 )
+    st.markdown("---")
+    st.subheader("🎤 Voice Input")
+    
+    st.session_state.voice_status = "🎤 Listening..."
+    audio = mic_recorder(
+        start_prompt="🎤 Start Recording",
+        stop_prompt="⏹ Stop Recording",
+        key="voice_recorder"
+    )
+    if audio:
+        st.session_state.voice_status = "🧠 Thinking..."
 
+        audio_path = save_audio(audio)
+
+        st.success("✅ Voice recorded successfully!")
+
+        st.write(audio_path)
+        
+        st.info("🎤 Click Start Recording and speak clearly.")
+        
+        st.success("✅ Response completed")
+        
+        st.markdown("## 🧠 Thinking...")
+    
     if uploaded_image is not None:
 
         image = load_image(uploaded_image)
@@ -745,6 +779,8 @@ with st.chat_message("assistant", avatar="🤖"):
 
             if hasattr(response, "text") and response.text:
                 ai_response = response.text
+                st.session_state.voice_status = "🔊 Speaking..."
+                audio_file = text_to_speech(ai_response)
             else:
                 ai_response = "⚠️ I couldn't generate a response. Please try again."
 
@@ -765,6 +801,8 @@ Please wait a while and try again later.
                 ai_response = f"⚠️ Unexpected Error:\n\n{error}"
 
     st.markdown(ai_response)
+    st.audio(audio_file)
+    st.session_state.voice_status = "✅ Idle"
 
     components.html(
         f"""
